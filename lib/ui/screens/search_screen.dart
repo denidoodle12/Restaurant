@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../common/constants.dart';
+import '../../common/detail_args.dart';
 import '../../common/navigation.dart';
 import '../../data/models/restaurant.dart';
 import '../../providers/restaurant_search_provider.dart';
@@ -77,11 +78,15 @@ class _SearchScreenState extends State<SearchScreen> {
                 final restaurant = data[index];
                 return RestaurantCard(
                   restaurant: restaurant,
+                  heroTagPrefix: 'search',
                   onTap: () {
                     Navigator.pushNamed(
                       context,
                       AppRoutes.detail,
-                      arguments: restaurant,
+                      arguments: DetailScreenArgs(
+                        restaurant: restaurant,
+                        heroTagPrefix: 'search',
+                      ),
                     );
                   },
                 );

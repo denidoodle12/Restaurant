@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import '../../common/constants.dart';
+import '../../common/detail_args.dart';
 import '../../common/navigation.dart';
 import '../../data/models/restaurant.dart';
 import '../../providers/restaurant_list_provider.dart';
-import '../../providers/theme_provider.dart';
 import '../../utils/result_state.dart';
 import '../widgets/error_widget.dart';
 import '../widgets/loading_indicator.dart';
@@ -61,21 +61,6 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
           const Spacer(),
-          Consumer<ThemeProvider>(
-            builder: (context, themeProvider, child) {
-              return IconButton(
-                tooltip: themeProvider.isDarkMode
-                    ? 'Switch to light mode'
-                    : 'Switch to dark mode',
-                icon: Icon(
-                  themeProvider.isDarkMode
-                      ? Icons.light_mode_outlined
-                      : Icons.dark_mode_outlined,
-                ),
-                onPressed: () => themeProvider.toggleTheme(),
-              );
-            },
-          ),
           IconButton(
             tooltip: 'Search restaurants',
             icon: const Icon(Icons.search_rounded),
@@ -185,11 +170,15 @@ class HomeScreen extends StatelessWidget {
                 final restaurant = data[index];
                 return RestaurantCard(
                   restaurant: restaurant,
+                  heroTagPrefix: 'home',
                   onTap: () {
                     Navigator.pushNamed(
                       context,
                       AppRoutes.detail,
-                      arguments: restaurant,
+                      arguments: DetailScreenArgs(
+                        restaurant: restaurant,
+                        heroTagPrefix: 'home',
+                      ),
                     );
                   },
                 );
