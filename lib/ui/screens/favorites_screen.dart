@@ -128,36 +128,38 @@ class FavoritesScreen extends StatelessWidget {
   Widget _buildEmptyState(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.favorite_border_rounded,
-              size: 80,
-              color: colorScheme.onSurface.withValues(alpha: 0.3),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              'No favorites yet',
-              style: GoogleFonts.plusJakartaSans(
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-                color: colorScheme.onSurface,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.favorite_border_rounded,
+                size: 80,
+                color: colorScheme.onSurface.withValues(alpha: 0.3),
               ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'Tap the heart icon on any restaurant\nto save it here',
-              textAlign: TextAlign.center,
-              style: GoogleFonts.plusJakartaSans(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: colorScheme.onSurface.withValues(alpha: 0.55),
+              const SizedBox(height: 16),
+              Text(
+                'No favorites yet',
+                style: GoogleFonts.plusJakartaSans(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: colorScheme.onSurface,
+                ),
               ),
-            ),
-          ],
+              const SizedBox(height: 8),
+              Text(
+                'Tap the heart icon on any restaurant\nto save it here',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.plusJakartaSans(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: colorScheme.onSurface.withValues(alpha: 0.55),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
