@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:readmore/readmore.dart';
 import 'package:provider/provider.dart';
 import '../../common/constants.dart';
 import '../../data/models/restaurant.dart';
@@ -10,6 +11,7 @@ import '../../providers/review_provider.dart';
 import '../../utils/result_state.dart';
 import '../widgets/add_review_sheet.dart';
 import '../widgets/error_widget.dart';
+import '../widgets/favorite_button.dart';
 import '../widgets/loading_indicator.dart';
 import '../widgets/menu_section.dart';
 import '../widgets/review_card.dart';
@@ -17,11 +19,13 @@ import '../widgets/review_card.dart';
 class DetailScreen extends StatelessWidget {
   final Restaurant restaurant;
   final RestaurantRepository repository;
+  final String heroTagPrefix;
 
   const DetailScreen({
     super.key,
     required this.restaurant,
     required this.repository,
+    this.heroTagPrefix = 'home',
   });
 
   @override
@@ -37,15 +41,22 @@ class DetailScreen extends StatelessWidget {
           create: (_) => ReviewProvider(repository: repository),
         ),
       ],
-      child: _DetailScreenContent(restaurant: restaurant),
+      child: _DetailScreenContent(
+        restaurant: restaurant,
+        heroTagPrefix: heroTagPrefix,
+      ),
     );
   }
 }
 
 class _DetailScreenContent extends StatelessWidget {
   final Restaurant restaurant;
+  final String heroTagPrefix;
 
-  const _DetailScreenContent({required this.restaurant});
+  const _DetailScreenContent({
+    required this.restaurant,
+    required this.heroTagPrefix,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -156,12 +167,21 @@ class _DetailScreenContent extends StatelessWidget {
           ),
         ),
       ),
+      actions: [
+        Padding(
+          padding: const EdgeInsets.all(8),
+          child: CircleAvatar(
+            backgroundColor: Colors.black38,
+            child: FavoriteButton(restaurant: restaurant),
+          ),
+        ),
+      ],
       flexibleSpace: FlexibleSpaceBar(
         background: Stack(
           fit: StackFit.expand,
           children: [
             Hero(
-              tag: 'restaurant-image-${restaurant.id}',
+              tag: '$heroTagPrefix-restaurant-image-${restaurant.id}',
               child: CachedNetworkImage(
                 imageUrl: imageUrl,
                 fit: BoxFit.cover,
@@ -295,7 +315,22 @@ class _DetailScreenContent extends StatelessWidget {
       children: [
         Text(AppStrings.about, style: Theme.of(context).textTheme.titleLarge),
         const SizedBox(height: 8),
-        Text(detail.description, style: Theme.of(context).textTheme.bodyMedium),
+        ReadMoreText(
+          detail.description,
+          trimLines: 4,
+          trimMode: TrimMode.Line,
+          trimCollapsedText: ' Read more',
+          trimExpandedText: ' Show less',
+          style: Theme.of(context).textTheme.bodyMedium,
+          moreStyle: const TextStyle(
+            color: AppColors.primaryColor,
+            fontWeight: FontWeight.w700,
+          ),
+          lessStyle: const TextStyle(
+            color: AppColors.primaryColor,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
       ],
     );
   }

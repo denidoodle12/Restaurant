@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../common/constants.dart';
+import '../../common/detail_args.dart';
 import '../../common/navigation.dart';
 import '../../data/models/restaurant.dart';
 import '../../providers/restaurant_search_provider.dart';
@@ -77,11 +78,15 @@ class _SearchScreenState extends State<SearchScreen> {
                 final restaurant = data[index];
                 return RestaurantCard(
                   restaurant: restaurant,
+                  heroTagPrefix: 'search',
                   onTap: () {
                     Navigator.pushNamed(
                       context,
                       AppRoutes.detail,
-                      arguments: restaurant,
+                      arguments: DetailScreenArgs(
+                        restaurant: restaurant,
+                        heroTagPrefix: 'search',
+                      ),
                     );
                   },
                 );
@@ -101,49 +106,59 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget _buildEmptyState(BuildContext context, String query) {
     if (query.isEmpty) {
       return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.search, size: 80, color: Colors.grey[400]),
-            const SizedBox(height: 16),
-            Text(
-              'Search for restaurants',
-              style: Theme.of(
-                context,
-              ).textTheme.titleMedium?.copyWith(color: Colors.grey[600]),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.search, size: 80, color: Colors.grey[400]),
+                const SizedBox(height: 16),
+                Text(
+                  'Search for restaurants',
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleMedium?.copyWith(color: Colors.grey[600]),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Enter a restaurant name or city',
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(color: Colors.grey[500]),
+                ),
+              ],
             ),
-            const SizedBox(height: 8),
-            Text(
-              'Enter a restaurant name or city',
-              style: Theme.of(
-                context,
-              ).textTheme.bodyMedium?.copyWith(color: Colors.grey[500]),
-            ),
-          ],
+          ),
         ),
       );
     }
 
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(Icons.search_off, size: 80, color: Colors.grey[400]),
-          const SizedBox(height: 16),
-          Text(
-            'No restaurants found',
-            style: Theme.of(
-              context,
-            ).textTheme.titleMedium?.copyWith(color: Colors.grey[600]),
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.search_off, size: 80, color: Colors.grey[400]),
+              const SizedBox(height: 16),
+              Text(
+                'No restaurants found',
+                style: Theme.of(
+                  context,
+                ).textTheme.titleMedium?.copyWith(color: Colors.grey[600]),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Try searching with different keywords',
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyMedium?.copyWith(color: Colors.grey[500]),
+              ),
+            ],
           ),
-          const SizedBox(height: 8),
-          Text(
-            'Try searching with different keywords',
-            style: Theme.of(
-              context,
-            ).textTheme.bodyMedium?.copyWith(color: Colors.grey[500]),
-          ),
-        ],
+        ),
       ),
     );
   }

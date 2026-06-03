@@ -7,11 +7,13 @@ import '../../data/models/restaurant.dart';
 class RestaurantCard extends StatelessWidget {
   final Restaurant restaurant;
   final VoidCallback onTap;
+  final String heroTagPrefix;
 
   const RestaurantCard({
     super.key,
     required this.restaurant,
     required this.onTap,
+    this.heroTagPrefix = 'home',
   });
 
   @override
@@ -52,7 +54,7 @@ class RestaurantCard extends StatelessWidget {
       child: Stack(
         children: [
           Hero(
-            tag: 'restaurant-image-${restaurant.id}',
+            tag: '$heroTagPrefix-restaurant-image-${restaurant.id}',
             child: SizedBox(
               width: 110,
               height: 110,
